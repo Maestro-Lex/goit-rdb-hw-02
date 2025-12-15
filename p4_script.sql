@@ -18,9 +18,10 @@ USE `mydb` ;
 -- Table `mydb`.`Customers`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Customers` (
-  `customer_name` VARCHAR(45) NOT NULL,
+  `cust_id` INT NOT NULL,
+  `customer_name` VARCHAR(45) NULL,
   `address` VARCHAR(45) NULL,
-  PRIMARY KEY (`customer_name`))
+  PRIMARY KEY (`cust_id`))
 ENGINE = InnoDB;
 
 
@@ -32,12 +33,22 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Orders` (
   `customer` VARCHAR(45) NULL,
   `date` DATETIME NULL,
   PRIMARY KEY (`order_id`),
-  INDEX `customer-order_idx` (`customer` ASC) VISIBLE,
   CONSTRAINT `customer-order`
-    FOREIGN KEY (`customer`)
-    REFERENCES `mydb`.`Customers` (`customer_name`)
+    FOREIGN KEY (`order_id`)
+    REFERENCES `mydb`.`Customers` (`cust_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Goods_total`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Goods_total` (
+  `good_id` INT NOT NULL,
+  `good_name` VARCHAR(45) NULL,
+  `total_quantity` INT NULL,
+  PRIMARY KEY (`good_id`))
 ENGINE = InnoDB;
 
 
@@ -52,6 +63,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Order_Goods` (
   CONSTRAINT `good-order`
     FOREIGN KEY (`order_id`)
     REFERENCES `mydb`.`Orders` (`order_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `good-warehouse`
+    FOREIGN KEY (`order_id`)
+    REFERENCES `mydb`.`Goods_total` (`good_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
