@@ -30,10 +30,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Orders` (
   `order_id` INT NOT NULL,
-  `customer` VARCHAR(45) NULL,
+  `cust_id` INT NULL,
   `date` DATETIME NULL,
   PRIMARY KEY (`order_id`),
-  CONSTRAINT `customer-order`
+  CONSTRAINT `order-customer`
     FOREIGN KEY (`order_id`)
     REFERENCES `mydb`.`Customers` (`cust_id`)
     ON DELETE NO ACTION
@@ -57,7 +57,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Order_Goods` (
   `order_id` INT NOT NULL,
-  `name` VARCHAR(45) NULL,
+  `good_id` INT NULL,
   `quantity` INT NULL,
   PRIMARY KEY (`order_id`),
   CONSTRAINT `good-order`
